@@ -1,0 +1,8 @@
+user]
+  name = Dmitriy Fedorov
+  email = fdi1992@gmail.com
+[alias]
+  co = checkout
+  ci = commit
+[push]
+  autoSetupRemote = true
