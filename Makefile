@@ -1,6 +1,6 @@
 define link_file
 	if [ -f $(1) ]; then mv -n $(1) $(1).backup; fi
-	ln -s $(realpath $(2)) $(1)
+	ln -s $(realpath $(2)) $(1) -f
 endef
 
 .PHONY: tmux
@@ -10,7 +10,8 @@ tmux:
 
 .PHONY: git
 git:
-	$(call link_file, ~/.gitconfig, ./git/gitconfig)
+	@if [ -z "$(email)" ]; then echo "Error: 'email' argument is required. Usage: make git email=your@email.com"; exit 1; fi
+	cp ./git/gitconfig ~/.gitconfig && sed -i -e 's/{{email}}/$(email)/g' ~/.gitconfig
 
 .PHONY: all
 all: tmux git

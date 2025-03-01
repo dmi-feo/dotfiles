@@ -1,8 +1,17 @@
-[user]
-  name = Dmitriy Fedorov
-  email = fdi1992@gmail.com
 [alias]
-  co = checkout
-  ci = commit
+	co = checkout
+	ci = commit
+[user]
+	name = Dmitriy Fedorov
+	email = {{email}}
 [push]
-  autoSetupRemote = true
+	autoSetupRemote = true
+[branch]
+        sort = -committerdate
+[tag]
+        sort = version:refname
+[diff]
+        algorithm = histogram
+        colorMoved = plain
+        mnemonicPrefix = true
+        renames = true
