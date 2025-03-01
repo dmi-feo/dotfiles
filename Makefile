@@ -13,5 +13,9 @@ git:
 	@if [ -z "$(email)" ]; then echo "Error: 'email' argument is required. Usage: make git email=your@email.com"; exit 1; fi
 	cp ./git/gitconfig ~/.gitconfig && sed -i -e 's/{{email}}/$(email)/g' ~/.gitconfig
 
+.PHONY: vim
+vim:
+	$(call link_file, ~/.vimrc, ./vim/vimrc)
+
 .PHONY: all
-all: tmux git
+all: tmux git vim
