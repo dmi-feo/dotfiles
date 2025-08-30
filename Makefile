@@ -17,5 +17,11 @@ git:
 vim:
 	$(call link_file, ~/.vimrc, ./vim/vimrc)
 
+.PHONY: utils
+utils:
+	./utils/install_utils.sh
+	cp ./utils/export_env_vars.sh ~/.zsh.d/export_env_vars_for_utils.sh
+	echo 'source ~/.zsh.d/export_env_vars_for_utils.sh' >> ~/.zshrc
+
 .PHONY: all
-all: tmux git vim
+all: tmux git vim utils
