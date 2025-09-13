@@ -17,11 +17,18 @@ git:
 vim:
 	$(call link_file, ~/.vimrc, ./vim/vimrc)
 
-.PHONY: utils
-utils:
+.PHONY: utils-for-mac
+utils-for-mac:
 	./utils/install_utils.sh
-	cp ./utils/export_env_vars.sh ~/.zsh.d/export_env_vars_for_utils.sh
-	echo 'source ~/.zsh.d/export_env_vars_for_utils.sh' >> ~/.zshrc
+	echo "source `realpath ./utils/export_env_vars.sh`" >> ~/.zsh.d/hosts/`hostname`/zshrc
 
-.PHONY: all
-all: tmux git vim utils
+.PHONY: zsh
+zsh:
+	git -C ~/.zsh.d pull --recurse-submodules || git clone --recurse-submodules git@github.com:dmi-feo/zsh_config.git ~/.zsh.d
+	./zsh/ensure_line_in_file.sh "source ~/.zsh.d/zshrc" ~/.zshrc
+
+.PHONY: all-mac
+all-mac: tmux git vim utils-for-mac
+
+.PHONY: all-linux
+all-linux: tmux git vim
