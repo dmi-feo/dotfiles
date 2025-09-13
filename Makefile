@@ -3,6 +3,8 @@ define link_file
 	ln -s $(realpath $(2)) $(1) -f
 endef
 
+UNAME_S := $(shell uname -s)
+
 .PHONY: tmux
 tmux:
 	$(call link_file, ~/.tmux.conf, ./tmux/tmux.conf)
@@ -20,15 +22,18 @@ vim:
 .PHONY: utils-for-mac
 utils-for-mac:
 	./utils/install_utils.sh
-	echo "source `realpath ./utils/export_env_vars.sh`" >> ~/.zsh.d/hosts/`hostname`/zshrc
+	./ensure_line_in_file.sh "source `realpath ./utils/export_env_vars.sh`" ~/.zshrc
 
 .PHONY: zsh
 zsh:
 	git -C ~/.zsh.d pull --recurse-submodules || git clone --recurse-submodules git@github.com:dmi-feo/zsh_config.git ~/.zsh.d
-	./zsh/ensure_line_in_file.sh "source ~/.zsh.d/zshrc" ~/.zshrc
+	./ensure_line_in_file.sh "source ~/.zsh.d/zshrc" ~/.zshrc
 
 .PHONY: all-mac
-all-mac: tmux git vim utils-for-mac
+all-mac: zsh tmux git vim utils-for-mac
 
 .PHONY: all-linux
-all-linux: tmux git vim
+all-linux: zsh tmux git vim
+
+.PHONY: all
+all: $(if $(findstring Darwin,$(UNAME_S)),all-mac,all-linux)
