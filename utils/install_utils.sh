@@ -47,7 +47,7 @@ ensure_brew() {
 
   local pkg="$1"
 
-  if brew list --formula --cask "$pkg" &>/dev/null; then
+  if brew list "$pkg" &>/dev/null; then
     echo "✅ $pkg is already installed."
   else
     echo "📦 Installing $pkg..."
